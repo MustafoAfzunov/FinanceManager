@@ -19,7 +19,7 @@ public class JwtTokenUtil {
 
     public String generateAccessToken(MyAppUser user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidity))
                 .signWith(key)
@@ -28,7 +28,7 @@ public class JwtTokenUtil {
 
     public String generateRefreshToken(MyAppUser user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidity))
                 .signWith(key)
@@ -45,8 +45,8 @@ public class JwtTokenUtil {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         Claims claims = getClaims(token);
-        String email = claims.getSubject();
+        String username = claims.getSubject();
         Date expiration = claims.getExpiration();
-        return (email.equals(userDetails.getUsername()) && !expiration.before(new Date()));
+        return (username.equals(userDetails.getUsername()) && !expiration.before(new Date()));
     }
 }

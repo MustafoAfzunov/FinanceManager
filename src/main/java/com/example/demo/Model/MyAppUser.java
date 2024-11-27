@@ -49,9 +49,9 @@ public class MyAppUser implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
-        // Decide whether to return username or email based on your authentication logic
-        return username; // or return username;
+        return username; // This should return the username field
     }
 
     public void setUsername(String username) {

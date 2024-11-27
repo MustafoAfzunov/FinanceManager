@@ -21,33 +21,32 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil; // Ensure JwtTokenUtil is a Spring bean
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private MyAppUserService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException { // Corrected exception
+            throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
         String token = null;
-        String email = null;
+        String username = null;
 
         if (header != null && header.startsWith("Bearer ")) {
             token = header.substring(7);
             try {
                 Claims claims = jwtTokenUtil.getClaims(token);
-                email = claims.getSubject();
+                username = claims.getSubject(); // This will now be the username
             } catch (ExpiredJwtException | MalformedJwtException e) {
-                // Handle exceptions, possibly set response status and message
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
         }
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
