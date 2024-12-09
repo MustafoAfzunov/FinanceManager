@@ -14,7 +14,7 @@ public class JwtTokenUtil {
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private final long accessTokenValidity = 5 * 60 * 1000; // 5 minutes
+    private final long accessTokenValidity = 10 * 60 * 60 * 1000; // 10 hours
     private final long refreshTokenValidity = 30 * 24 * 60 * 60 * 1000L; // 30 days
 
     public String generateAccessToken(MyAppUser user) {
