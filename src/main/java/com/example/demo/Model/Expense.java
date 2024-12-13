@@ -30,6 +30,13 @@ public class Expense {
         this.date = date;
         this.user = user;
     }
+    @PrePersist
+    public void prePersist() {
+        if (this.date == null) {
+            this.date = LocalDate.now(); // Automatically set the current date
+        }
+    }
+
 
     public void setUser(MyAppUser user) {
         this.user = user;
@@ -46,6 +53,12 @@ public class Expense {
     }
     public void setCategory(String category) {
         this.category = category;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
     // Getters and Setters
     // ... (include all getters and setters)

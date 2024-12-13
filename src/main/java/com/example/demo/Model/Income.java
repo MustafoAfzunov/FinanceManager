@@ -31,6 +31,14 @@ public class Income {
         this.date = date;
         this.user = user;
     }
+    @PrePersist
+    public void prePersist() {
+        if (this.date == null) {
+            this.date = LocalDate.now(); // Automatically set the current date
+        }
+    }
+
+
 
     public void setUser(MyAppUser user) {
         this.user = user;
@@ -48,6 +56,13 @@ public class Income {
     public void setSource(String source) {
         this.source = source;
     }
+    public LocalDate getDate() {
+        return date;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     // Getters and Setters
     // ... (include all getters and setters)
 
