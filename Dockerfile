@@ -8,8 +8,11 @@
 # ENTRYPOINT ["java","-jar","demo.jar"]
 
 # Use the Eclipse Temurin Alpine official image
-# https://hub.docker.com/_/eclipse-temurin
+# Use the Eclipse Temurin Alpine official image
 FROM eclipse-temurin:21-jdk-alpine
+
+# Install Maven
+RUN apk add --no-cache maven
 
 # Set working directory
 WORKDIR /app
@@ -17,14 +20,8 @@ WORKDIR /app
 # Copy local code to the container image
 COPY . ./
 
-# Ensure the `mvnw` script has executable permissions
-RUN chmod +x mvnw
-
-# Debugging: Check if `mvnw` exists and is executable
-RUN ls -l mvnw && ./mvnw --version
-
 # Build the app
-RUN ./mvnw -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
+RUN mvn -B -DoutputFile=target/mvn-dependency-list.log -DskipTests clean dependency:list install
 
-# Run the app dynamically finding the JAR file in the target directory
+# Run the app
 CMD ["sh", "-c", "java -jar target/*.jar"]
