@@ -6,7 +6,9 @@ server:
 spring:
   datasource:
     password: INYXDcXplBwsEtXiYgJLFhsDkjFliKLg
-    url: postgresql://postgres:INYXDcXplBwsEtXiYgJLFhsDkjFliKLg@autorack.proxy.rlwy.net:27160/railway
+    url: jdbc:postgresql://autorack.proxy.rlwy.net:27160/railway
+    username: postgres
+    password: INYXDcXplBwsEtXiYgJLFhsDkjFliKLg
     username: postgres
 #    password: must2004$
 #    url: jdbc:postgresql://localhost:5432/registration
